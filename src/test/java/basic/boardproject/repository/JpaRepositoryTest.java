@@ -60,8 +60,8 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenUpdating_thenWorksFine() {
         // Given
-        articleRepository.save(Article.of("new Article", "new Content", "#Spring"));
-        Article article = articleRepository.findById(1L).orElseThrow();
+        Article initArticle = articleRepository.save(Article.of("new Article", "new Content", "#Spring"));
+        Article article = articleRepository.findById(initArticle.getId()).orElseThrow();
         String updateHashTag = "#springBoot";
         article.setHashtag(updateHashTag);
 
@@ -76,8 +76,8 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenDeleting_thenWorksFine() {
         // Given
-        articleRepository.save(Article.of("new Article", "new Content", "#Spring"));
-        Article article = articleRepository.findById(1L).orElseThrow();
+        Article initArticle = articleRepository.save(Article.of("new Article", "new Content", "#Spring"));
+        Article article = articleRepository.findById(initArticle.getId()).orElseThrow();
         long previousArticleCount = articleRepository.count();
         long previousArticleCommentCount = articleCommentRepository.count();
         int deleteCommentsSize = article.getArticleComments().size();
