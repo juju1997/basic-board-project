@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 페이지</title>
+</head>
+
+<body>
+
+    <!-- header thymeleaf template 사용 -->
+    <header id="header"></header>
+
+    <main>
+        <header>
+            <h1>첫번째 글</h1>
+        </header>
+
+        <aside>
+            <p><span>juju</span></p>
+            <p><a href="mailto:gudwls671214@gmail.com">gudwls671214@gmail.com</a></p>
+            <p><time datetime="2023-12-12T00:00:00">2023-12-12</time></p>
+            <p>#java</p>
+        </aside>
+
+        <section>
+            <p>본문<br><br></p>
+
+            <div>
+                <form>
+                    <label for="articleComment" hidden></label>
+                    <textarea id="articleComment" placeholder="댓글 쓰기..."></textarea>
+                    <button type="submit">쓰기</button>
+                </form>
+
+                <ul>
+                    <li>
+                        <div>
+                            <time><small>2023-12-12</small></time>
+                            <strong>juju1</strong>
+                            <p>
+                                안녕하세요, 댓글이에요
+                                반가워요.
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <time><small>2023-12-13</small></time>
+                            <strong>juju2</strong>
+                            <p>
+                                안녕하세요, 댓글이에요
+                                반가워요.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <nav>
+                <a href="#">이전 글</a>
+                <a href="#">다음 글</a>
+            </nav>
+        </section>
+    </main>
+
+    <!-- footer thymeleaf template 사용 -->
+    <footer id="footer"></footer>
+
+</body>
+</html>
