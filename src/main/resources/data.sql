@@ -2000,3 +2000,10 @@ insert into ARTICLE_COMMENT (article_id, content, created_by, modified_by, creat
 insert into ARTICLE_COMMENT (article_id, content, created_by, modified_by, created_at, modified_at) values (949, 'Fall in, on, or from railway train injuring passenger on railway', 'Reinald Mablestone', 'Farrel Pigram', '2023-06-12 13:32:53', '2023-10-02 12:18:12');
 insert into ARTICLE_COMMENT (article_id, content, created_by, modified_by, created_at, modified_at) values (896, 'Pathologic fracture of distal radius and ulna', 'Rene Van Der Straaten', 'Davey Rome', '2023-07-22 13:05:41', '2023-10-01 17:38:07');
 insert into ARTICLE_COMMENT (article_id, content, created_by, modified_by, created_at, modified_at) values (736, 'Mechanical ptosis', 'Georgie Forsard', 'Shaylynn Bedin', '2023-08-30 08:00:05', '2023-04-05 13:17:57');
+
+
+-- 테스트 계정
+-- TODO: 테스트용이지만 비밀번호가 노출된 데이터 세팅. 개선하는 것이 좋을 지 고민해 보자.
+insert into user_account (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at, modified_by) values
+('juju', '123123', 'juju', 'juju@mail.com', 'I am JUJU.', now(), 'juju', now(), 'juju')
+;
