@@ -2,6 +2,7 @@ package basic.boardproject.service;
 
 import basic.boardproject.domain.Article;
 import basic.boardproject.domain.ArticleComment;
+import basic.boardproject.domain.UserAccount;
 import basic.boardproject.dto.ArticleCommentDto;
 import basic.boardproject.repository.ArticleCommentRepository;
 import basic.boardproject.repository.ArticleRepository;
@@ -38,8 +39,9 @@ class ArticleCommentServiceTest {
         // Given
         Long articleId = 1L;
 
+        UserAccount userAccount = UserAccount.of("juju", "123123", null, null, null);
         given(articleRepository.findById(articleId)).willReturn(Optional.of(
-                Article.of("title","content","#java"))
+                Article.of(userAccount,"title","content","#java"))
         );
 
         // When
