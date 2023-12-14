@@ -2,6 +2,7 @@ package basic.boardproject.repository;
 
 import basic.boardproject.config.JpaConfig;
 import basic.boardproject.domain.Article;
+import basic.boardproject.domain.UserAccount;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,13 +20,16 @@ class JpaRepositoryTest {
 
     @Autowired private final ArticleRepository articleRepository;
     @Autowired private final ArticleCommentRepository articleCommentRepository;
+    @Autowired private final UserAccountRepository userAccountRepository;
 
     public JpaRepositoryTest(
             @Autowired ArticleRepository articleRepository,
-            @Autowired ArticleCommentRepository articleCommentRepository
+            @Autowired ArticleCommentRepository articleCommentRepository,
+            @Autowired UserAccountRepository userAccountRepository
     ) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("Select Test")
@@ -39,7 +43,7 @@ class JpaRepositoryTest {
         // Then
         Assertions.assertThat(articles)
                 .isNotNull()
-                .hasSize(1000);
+                .hasSize(123);
 
     }
 
@@ -48,9 +52,11 @@ class JpaRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine() {
         // Given
         long previousCount = articleRepository.count();
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("juju", "123123", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
         // When
-        Article savedArticle = articleRepository.save(Article.of("new Article", "new Content", "#Spring"));
+        articleRepository.save(article);
 
         // Then
         Assertions.assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
@@ -60,8 +66,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenUpdating_thenWorksFine() {
         // Given
-        Article initArticle = articleRepository.save(Article.of("new Article", "new Content", "#Spring"));
-        Article article = articleRepository.findById(initArticle.getId()).orElseThrow();
+        Article article = articleRepository.findById(1L).orElseThrow();
         String updateHashTag = "#springBoot";
         article.setHashtag(updateHashTag);
 
@@ -76,8 +81,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenDeleting_thenWorksFine() {
         // Given
-        Article initArticle = articleRepository.save(Article.of("new Article", "new Content", "#Spring"));
-        Article article = articleRepository.findById(initArticle.getId()).orElseThrow();
+        Article article = articleRepository.findById(1L).orElseThrow();
         long previousArticleCount = articleRepository.count();
         long previousArticleCommentCount = articleCommentRepository.count();
         int deleteCommentsSize = article.getArticleComments().size();
