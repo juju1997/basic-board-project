@@ -1,7 +1,7 @@
 -- 테스트 계정
 insert into user_account (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at,
                           modified_by)
-values ('juju', '123123', 'JUJU', 'juju@mail.com', 'I am JUJU.', now(), 'juju', now(), 'juju')
+values ('juju', '123123', 'juju', 'juju@mail.com', 'I am JUJU.', now(), 'juju', now(), 'juju')
 ;
 
 -- 게시글
