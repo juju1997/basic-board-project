@@ -4,6 +4,18 @@
     <attr sel="#footer" th:replace="~{footer :: footer}"/>
 
     <attr sel="main" th:object="${articles}">
+
+        <attr sel="#search-form" th:action="@{/articles}" th:method="get" />
+        <attr sel="#search-type" th:remove="all-but-first">
+            <attr sel="option[0]"
+                  th:each="searchType : ${searchTypes}"
+                  th:value="${searchType.name}"
+                  th:text="${searchType.description}"
+                  th:selected="${param.searchType != null && (param.searchType.toString == searchType.name)}"
+            />
+        </attr>
+        <attr sel="#search-value" th:value="${param.searchValue}" />
+
         <attr sel="#article-table">
             <attr sel="thead/tr">
                 <attr sel="th.title/a" th:text="'제목'" th:href="@{/articles(
@@ -45,19 +57,19 @@
         <attr sel="#pagination">
             <attr sel="li[0]/a"
                   th:text="'previous'"
-                  th:href="@{/articles(page=${articles.number - 1})}"
+                  th:href="@{/articles(page=${articles.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                   th:class="'page-link' + (${articles.number} <= 0 ? ' disabled' : '')"
             />
             <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
                 <attr sel="a"
                       th:text="${pageNumber + 1}"
-                      th:href="@{/articles(page=${pageNumber})}"
+                      th:href="@{/articles(page=${pageNumber}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                       th:class="'page-link' + (${pageNumber} == ${articles.number} ? ' disabled' : '')"
                 />
             </attr>
             <attr sel="li[2]/a"
                   th:text="'next'"
-                  th:href="@{/articles(page=${articles.number + 1})}"
+                  th:href="@{/articles(page=${articles.number + 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                   th:class="'page-link' + (${articles.number} >= ${articles.totalPages - 1} ? ' disabled' : '')"
             />
         </attr>
