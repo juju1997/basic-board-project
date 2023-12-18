@@ -59,5 +59,26 @@ public class ArticleController {
         return "articles/detail";
     }
 
+    /**
+     * 해시태그 검색 페이지
+     * */
+    @GetMapping("/search-hashtag")
+    public String searchHashtag(
+            @RequestParam(required = false) SearchType searchType,
+            @RequestParam(required = false) String searchValue,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable page,
+            ModelMap map) {
+
+        Page<ArticleResponse> articles = articleService.searchArticlesViaHashtag(searchValue, page).map(ArticleResponse::from);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(page.getPageNumber(), articles.getTotalPages());
+        List<String> hashtags = articleService.getHashtags();
+
+        map.addAttribute("articles", articles);
+        map.addAttribute("hashtags", hashtags);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("searchType", SearchType.HASHTAG);
+
+        return "articles/search-hashtag";
+    }
 
 }
