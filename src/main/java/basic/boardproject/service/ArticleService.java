@@ -1,10 +1,12 @@
 package basic.boardproject.service;
 
 import basic.boardproject.domain.Article;
-import basic.boardproject.domain.type.SearchType;
+import basic.boardproject.domain.UserAccount;
+import basic.boardproject.domain.constant.SearchType;
 import basic.boardproject.dto.ArticleDto;
 import basic.boardproject.dto.ArticleWithCommentsDto;
 import basic.boardproject.repository.ArticleRepository;
+import basic.boardproject.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import java.util.List;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final UserAccountRepository userAccountRepository;
 
     /**
      * Article 검색
@@ -45,26 +48,35 @@ public class ArticleService {
      * Article 단건 조회, 해당 Article 의 댓글 조회
      * */
     @Transactional(readOnly = true)
-    public ArticleWithCommentsDto getArticle(Long articleId) {
+    public ArticleWithCommentsDto getArticleWithComments(Long articleId) {
         return articleRepository.findById(articleId)
                 .map(ArticleWithCommentsDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
     }
 
+    @Transactional(readOnly = true)
+    public ArticleDto getArticle(Long articleId) {
+        return articleRepository.findById(articleId)
+                .map(ArticleDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
+    }
+
+
     /**
      * Article 저장
      * */
     public void saveArticle(ArticleDto dto) {
-        articleRepository.save(dto.toEntity());
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        articleRepository.save(dto.toEntity(userAccount));
     }
 
 
     /**
      * Article 수정
      * */
-    public void updateArticle(ArticleDto dto) {
+    public void updateArticle(Long articleId, ArticleDto dto) {
         try {
-            Article article = articleRepository.getReferenceById(dto.id());
+            Article article = articleRepository.getReferenceById(articleId);
             if (dto.title() != null ){ article.setTitle(dto.title()); }
             if (dto.title() != null ){ article.setContent(dto.content()); }
             article.setHashtag(dto.hashtag());
@@ -80,6 +92,11 @@ public class ArticleService {
     public void deleteArticle(long articleId) {
         articleRepository.deleteById(articleId);
     }
+
+    public long getArticleCount() {
+        return articleRepository.count();
+    }
+
 
     @Transactional(readOnly = true)
     public Page<ArticleDto> searchArticlesViaHashtag(String hashtag, Pageable pageable) {
