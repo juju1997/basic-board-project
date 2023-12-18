@@ -2,6 +2,7 @@ package basic.boardproject.repository;
 
 import basic.boardproject.domain.Article;
 import basic.boardproject.domain.QArticle;
+import basic.boardproject.repository.querydsl.ArticleRepositoryCustom;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface ArticleRepository extends
         JpaRepository<Article, Long>,
+        ArticleRepositoryCustom,
         QuerydslPredicateExecutor<Article>,
         QuerydslBinderCustomizer<QArticle> {
 
@@ -22,7 +24,7 @@ public interface ArticleRepository extends
     Page<Article> findByTitleContaining(String title, Pageable pageable);
     Page<Article> findByContentContaining(String content, Pageable pageable);
     Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
-    Page<Article> findByHashtagContaining(String hashtag, Pageable pageable);
+    Page<Article> findByHashtag(String hashtag, Pageable pageable);
     Page<Article> findByUserAccount_NicknameContaining(String nickName, Pageable pageable);
 
     @Override
