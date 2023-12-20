@@ -2,8 +2,10 @@ package basic.boardproject.controller;
 
 import basic.boardproject.dto.UserAccountDto;
 import basic.boardproject.dto.request.ArticleCommentRequest;
+import basic.boardproject.dto.security.BoardPrincipal;
 import basic.boardproject.service.ArticleCommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +22,12 @@ public class ArticleCommentController {
      * 댓글 추가
      * */
     @PostMapping("/new")
-    public String postNewArticleComment(ArticleCommentRequest articleCommentRequest) {
+    public String postNewArticleComment(
+            ArticleCommentRequest articleCommentRequest,
+            @AuthenticationPrincipal BoardPrincipal boardPrincipal
+    ) {
 
-        // TODO : 인증 정보 추가
-        articleCommentService.saveArticleComment(articleCommentRequest.toDto(UserAccountDto.of(
-                "juju", "123123", "juju@mail.com", "juju", "memo"
-        )));
+        articleCommentService.saveArticleComment(articleCommentRequest.toDto(boardPrincipal.toDto()));
 
         return "redirect:/articles/" + articleCommentRequest.articleId();
     }
@@ -34,9 +36,12 @@ public class ArticleCommentController {
      * 댓글 삭제
      * */
     @PostMapping("/{commentId}/delete")
-    public String postNewArticleComment(@PathVariable Long commentId, Long articleId) {
+    public String postNewArticleComment(
+            @PathVariable Long commentId, Long articleId,
+            @AuthenticationPrincipal BoardPrincipal boardPrincipal
+    ) {
 
-        articleCommentService.deleteArticleComment(commentId);
+        articleCommentService.deleteArticleComment(commentId, boardPrincipal.getUsername());
 
         return "redirect:/articles/" + articleId;
     }

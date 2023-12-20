@@ -20,6 +20,8 @@ public interface ArticleCommentRepository extends
 
     List<ArticleComment> findByArticle_Id(Long articleId);
 
+    void deleteByIdAndUserAccount_UserId(Long articleCommentId, String userId);
+
     @Override
     default void customize(QuerydslBindings bindings, QArticleComment root) {
         // 선택적인 Field 필터링
