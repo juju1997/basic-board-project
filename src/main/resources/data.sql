@@ -1,11 +1,11 @@
 -- 테스트 계정
 insert into user_account (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at,
                           modified_by)
-values ('juju', '123123', 'juju', 'juju@mail.com', 'I am JUJU.', now(), 'juju', now(), 'juju')
+values ('juju', '{noop}123123', 'juju', 'juju@mail.com', 'I am JUJU.', now(), 'juju', now(), 'juju')
 ;
 insert into user_account (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at,
                           modified_by)
-values ('juju2', '123123', 'juju2', 'juju2@mail.com', 'I am JUJU2.', now(), 'juju2', now(), 'juju2')
+values ('juju2', '{noop}123123', 'juju2', 'juju2@mail.com', 'I am JUJU2.', now(), 'juju2', now(), 'juju2')
 ;
 
 -- 123 게시글
