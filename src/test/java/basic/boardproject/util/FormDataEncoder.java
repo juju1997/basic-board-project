@@ -14,7 +14,7 @@ public class FormDataEncoder {
 
     private final ObjectMapper mapper;
 
-    public FormDataEncoder(ObjectMapper mapper) {
+    FormDataEncoder(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
