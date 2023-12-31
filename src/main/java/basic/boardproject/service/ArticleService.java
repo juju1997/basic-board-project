@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -39,8 +40,12 @@ public class ArticleService {
             case TITLE -> articleRepository.findByTitleContaining(searchKeyword, pageable).map(ArticleDto::from);
             case CONTENT -> articleRepository.findByContentContaining(searchKeyword, pageable).map(ArticleDto::from);
             case ID -> articleRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(ArticleDto::from);
-            case HASHTAG -> articleRepository.findByHashtag(searchKeyword, pageable).map(ArticleDto::from);
-            case NICKNAME -> articleRepository.findByUserAccount_NicknameContaining("#" + searchKeyword, pageable).map(ArticleDto::from);
+            case NICKNAME -> articleRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(ArticleDto::from);
+            case HASHTAG -> articleRepository.findByHashtagNames(
+                            Arrays.stream(searchKeyword.split(" ")).toList(),
+                            pageable
+                    )
+                    .map(ArticleDto::from);
         };
     }
 
@@ -82,7 +87,6 @@ public class ArticleService {
             if (article.getUserAccount().equals(userAccount)) {
                 if (dto.title() != null ){ article.setTitle(dto.title()); }
                 if (dto.title() != null ){ article.setContent(dto.content()); }
-                article.setHashtag(dto.hashtag());
                 // save를 안해도 영속성 컨텐츠에서 dto를 인식하여 자동으로 트랜잭션으로 묶고 커밋한다.
             }
         } catch (EntityNotFoundException e) {
@@ -108,10 +112,10 @@ public class ArticleService {
             return Page.empty(pageable);
         }
 
-        return articleRepository.findByHashtag(hashtag, pageable).map(ArticleDto::from);
+        return articleRepository.findByHashtagNames(null, pageable).map(ArticleDto::from);
     }
 
     public List<String> getHashtags() {
-        return articleRepository.findAllHashtagNames();
+        return articleRepository.findAllDistinctHashtags();
     }
 }
