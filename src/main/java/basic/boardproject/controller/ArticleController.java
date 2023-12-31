@@ -2,10 +2,9 @@ package basic.boardproject.controller;
 
 import basic.boardproject.domain.constant.FormStatus;
 import basic.boardproject.domain.constant.SearchType;
-import basic.boardproject.dto.UserAccountDto;
 import basic.boardproject.dto.request.ArticleRequest;
 import basic.boardproject.dto.response.ArticleResponse;
-import basic.boardproject.dto.response.ArticleWithCommentResponse;
+import basic.boardproject.dto.response.ArticleWithCommentsResponse;
 import basic.boardproject.dto.security.BoardPrincipal;
 import basic.boardproject.service.ArticleService;
 import basic.boardproject.service.PaginationService;
@@ -53,9 +52,9 @@ public class ArticleController {
      * */
     @GetMapping("/{articleId}")
     public String article(@PathVariable Long articleId, ModelMap map) {
-        ArticleWithCommentResponse article = ArticleWithCommentResponse.from(articleService.getArticleWithComments(articleId));
+        ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticleWithComments(articleId));
         map.addAttribute("article", article);
-        map.addAttribute("articleComments", article.articleCommentResponses());
+        map.addAttribute("articleComments", article.articleCommentsResponse());
         map.addAttribute("totalCount", articleService.getArticleCount());
 
         return "articles/detail";
