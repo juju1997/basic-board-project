@@ -1,7 +1,6 @@
 package basic.boardproject.service;
 
 import basic.boardproject.domain.Article;
-import basic.boardproject.domain.ArticleComment;
 import basic.boardproject.domain.Hashtag;
 import basic.boardproject.domain.UserAccount;
 import basic.boardproject.domain.constant.SearchType;
