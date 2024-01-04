@@ -1,6 +1,6 @@
 # 기본 게시판 서비스를 만들어보자!
 
-가장 기본적이고 보편적인 게시판 기능을 둘러볼 수 있는 서비스입니다.<br>
+가장 기본적이고 보편적인 게시판 기능을 둘러볼 수 있는 서비스입니다.<br><br>
 <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=white"/> 
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white">
 <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"/> 
